@@ -75,5 +75,5 @@ Contributions are what make the open source community such an amazing place to b
 
 
 ## Related Project
-- [Zwallet Back-End](https://github.com/safiratrisa/Telegram_API)
+- [Telegram Back-End](https://github.com/safiratrisa/Telegram_API)
 
