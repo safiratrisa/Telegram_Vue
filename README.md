@@ -14,7 +14,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Telegram is a chat application built with the implementation of VueJs, NodeJs with Express framework, MySQL, and Socket.io. This application will update your current location when you are logged in. You can also send message to a friend using Personal Chat or to many friends using Live Chat.
+Telegram is a chat application built with the implementation of VueJs, NodeJs with Express framework, MySQL, and SocketIO. This application will update your current location when you are logged in. You can also send message to a friend using Personal Chat or to many friends using Live Chat.
 
 ### Built With
 
