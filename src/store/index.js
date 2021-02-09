@@ -198,18 +198,9 @@ export default new Vuex.Store({
         // console.log('kebaca?')
         axios.put(`${process.env.VUE_APP_SERVICE_API}/users/updateimage/${localStorage.getItem('userID')}`, file, { headers: { 'Content-Type': 'multipart/form-data' } })
           .then((res) => {
-            Swal.fire(
-              'Success!',
-              'Your profile has been updated'
-            )
-            context.dispatch('getMyProfile')
             resolve(res.data.result)
           })
           .catch((err) => {
-            Swal.fire(
-              'Error!',
-              err.response.data.err.message
-            )
             reject(err)
           })
       })

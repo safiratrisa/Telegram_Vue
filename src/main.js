@@ -7,9 +7,11 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 import VueGeolocation from 'vue-browser-geolocation'
 import Notifications from 'vue-notification'
 import Vuelidate from 'vuelidate'
+import titleMixin from './mixins/titleMixin'
 Vue.use(Notifications)
 
 Vue.config.productionTip = false
+Vue.mixin(titleMixin)
 Vue.use(Vuelidate)
 Vue.use(VueGoogleMaps, {
   load: {

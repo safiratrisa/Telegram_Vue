@@ -40,6 +40,7 @@ import 'vue-loading-overlay/dist/vue-loading.css'
 import Swal from 'sweetalert2'
 export default {
   name: 'Login2',
+  title: 'Login',
   data () {
     return {
       email: '',

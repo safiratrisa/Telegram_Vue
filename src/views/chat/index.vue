@@ -14,6 +14,7 @@ import Userlist from '../../components/modules/userlist'
 import io from 'socket.io-client'
 export default {
   name: 'Chatroom',
+  title: 'Telegram',
   data () {
     return {
       // socket: io('http://localhost:5000')

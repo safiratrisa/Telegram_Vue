@@ -38,9 +38,6 @@
                         <img :src="receiver.senderimages" alt="">
                     </div>
                     </div>
-                    <div v-if="show === receiver.username" type="button" @click="deletemsg(receiver.id)" class="deletebtnright">
-                                        <i class="far fa-trash-alt"></i>
-                                    </div>
                 </div>
                 </div>
                 </div>
@@ -166,6 +163,10 @@
                 </div>
                 </template>
         </notifications>
+        <loading :active.sync="isLoading"
+        :can-cancel="true"
+        :is-full-page="fullPage">
+      </loading>
     </div>
 </template>
 
@@ -174,12 +175,15 @@ import { mapGetters, mapActions } from 'vuex'
 import Chatheader from '../../components/modules/chatheader'
 import Receiverprofile from '../../components/modules/receiverprofile'
 import Swal from 'sweetalert2'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 export default {
   name: 'Privatechat',
   props: ['socket'],
   components: {
     Chatheader,
-    Receiverprofile
+    Receiverprofile,
+    Loading
   },
   methods: {
     ...mapActions({ getReceiver: 'getReceiver', getReceiverbyId: 'getReceiverbyId', getUserProfile: 'getMyProfile', deleteMessage: 'deleteMessage' }),
@@ -191,16 +195,19 @@ export default {
       this.getReceiver(payload)
     },
     deletemsg (idmsg) {
-    //   console.log(idmsg)
+      this.isLoading = true
       const payload2 = {
         idmsg: idmsg
       }
       this.deleteMessage(payload2)
         .then((res) => {
-          Swal.fire(
-            'Deleted!'
-          )
+          Swal.fire({
+            title: 'Deleted!',
+            icon: 'success'
+          })
           this.getUserReceiver()
+          this.show = false
+          this.isLoading = false
         })
     },
     handleClick () {
@@ -266,7 +273,9 @@ export default {
       notifgrpsender: [],
       notifgroup: [],
       notifgroupsender: [],
-      show: ''
+      show: '',
+      isLoading: false,
+      fullPage: true
     }
   },
   computed: {

@@ -67,6 +67,10 @@
     @click="center=m.position"
   />
 </GmapMap>
+<loading :active.sync="isLoading"
+        :can-cancel="true"
+        :is-full-page="fullPage">
+      </loading>
 <!-- <div class="logout">
             <img src="../../assets/image/log-out.png" alt="" type="button" @click.prevent="logout">
         </div> -->
@@ -75,6 +79,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+import Swal from 'sweetalert2'
 export default {
   name: 'Userprofile',
   data () {
@@ -89,8 +96,13 @@ export default {
       bio: '',
       showname: '',
       showphone: '',
-      showbio: ''
+      showbio: '',
+      isLoading: false,
+      fullPage: true
     }
+  },
+  components: {
+    Loading
   },
   methods: {
     ...mapActions({ updateLocation: 'updateLocation', getUserProfile: 'getMyProfile', logoutbutton: 'logout', updateImage: 'updateImage', updateName: 'updateName', updatePhone: 'updatePhone', updateBio: 'updateBio' }),
@@ -99,39 +111,79 @@ export default {
       this.$router.push('/auth/login')
     },
     handleFileUpload () {
+      this.isLoading = true
       this.image = this.$refs.file.files[0]
       const formData = new FormData()
       formData.append('image', this.image)
       this.$store.dispatch('updateImage', formData)
+        .then((res) => {
+          Swal.fire({
+            title: 'Success!',
+            text: 'Your profile has been updated',
+            icon: 'success'
+          })
+          this.getUserProfile()
+          this.isLoading = false
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: 'Error!',
+            text: err.response.data.err.message,
+            icon: 'error'
+          })
+          this.isLoading = false
+        })
     },
     updatename () {
+      this.isLoading = true
       const payload = {
         name: this.name
       }
       this.updateName(payload)
         .then((res) => {
+          Swal.fire({
+            title: 'Success!',
+            icon: 'success'
+          })
           this.getUserProfile()
           this.name = ''
           this.showname = 'false'
+          this.isLoading = false
         })
     },
     updatephone () {
+      this.isLoading = true
       const payload = {
         phonenumber: this.phonenumber
       }
       this.updatePhone(payload)
-      this.getUserProfile()
-      this.phonenumber = ''
-      this.showphone = 'false'
+        .then(() => {
+          Swal.fire({
+            title: 'Success!',
+            icon: 'success'
+          })
+          this.getUserProfile()
+          this.phonenumber = ''
+          this.showphone = 'false'
+          this.isLoading = false
+        })
     },
     updatebio () {
+      this.isLoading = true
       const payload = {
         bio: this.bio
       }
       this.updateBio(payload)
-      this.getUserProfile()
-      this.bio = ''
-      this.showbio = 'false'
+        .then(() => {
+          Swal.fire({
+            title: 'Success!',
+            icon: 'success'
+          })
+          this.getUserProfile()
+          this.bio = ''
+          this.showbio = 'false'
+          this.isLoading = false
+        })
     },
     editname () {
       if (this.showname === 'true') {
